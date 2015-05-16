@@ -1,5 +1,5 @@
 {
-  "name": "LiquidCrystal_I2C_MCP23008",
+  "name": "LiquidCrystal",
   "author": "Evan Charlton <evancharlton@gmail.com>",
   "license": "BSD",
   "version": "1.0.0",
