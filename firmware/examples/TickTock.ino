@@ -1,7 +1,3 @@
-// This #include statement was automatically added by the Particle IDE.
-#include "LiquidCrystal/MCP23008.h"
-
-// This #include statement was automatically added by the Particle IDE.
 #include "LiquidCrystal/LiquidCrystal.h"
 
 //-----------------------------------------------//
