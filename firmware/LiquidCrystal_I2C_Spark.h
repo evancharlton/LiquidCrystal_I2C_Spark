@@ -1,14 +1,7 @@
-/*
-8-Feb-2015
-Modified timing of writes to accomodate SparkCore
-Jim Brower - 
-bulldoglowell@gmail.com
-*/
-#include "application.h"
 
-#ifndef LiquidCrystal_I2C_Spark_h
-#define LiquidCrystal_I2C_Spark_h
+//#include "Print.h"
 
+// commands
 #define LCD_CLEARDISPLAY 0x01
 #define LCD_RETURNHOME 0x02
 #define LCD_ENTRYMODESET 0x04
@@ -18,6 +11,7 @@ bulldoglowell@gmail.com
 #define LCD_SETCGRAMADDR 0x40
 #define LCD_SETDDRAMADDR 0x80
 
+// flags for display entry mode
 #define LCD_ENTRYRIGHT 0x00
 #define LCD_ENTRYLEFT 0x02
 #define LCD_ENTRYSHIFTINCREMENT 0x01
@@ -45,20 +39,31 @@ bulldoglowell@gmail.com
 #define LCD_5x10DOTS 0x04
 #define LCD_5x8DOTS 0x00
 
-// flags for backlight control
-#define LCD_BACKLIGHT 0x08
-#define LCD_NOBACKLIGHT 0x00
-
-//#define En B00000100  // Enable bit
-//#define Rw B00000010  // Read/Write bit
-//#define Rs B00000001  // Register select bit
-
-class LiquidCrystal_I2C : public Print {
+class LiquidCrystal : public Print {
 public:
-  LiquidCrystal_I2C(uint8_t lcd_Addr,uint8_t lcd_cols,uint8_t lcd_rows);
-  void begin(uint8_t cols, uint8_t rows, uint8_t charsize = LCD_5x8DOTS );
+  LiquidCrystal(uint8_t rs, uint8_t enable,
+		uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
+		uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7);
+  LiquidCrystal(uint8_t rs, uint8_t rw, uint8_t enable,
+		uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
+		uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7);
+  LiquidCrystal(uint8_t rs, uint8_t rw, uint8_t enable,
+		uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3);
+  LiquidCrystal(uint8_t rs, uint8_t enable,
+		uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3);
+
+  LiquidCrystal(uint8_t i2cAddr);
+  LiquidCrystal(uint8_t data, uint8_t clock, uint8_t latch);
+
+  void init(uint8_t fourbitmode, uint8_t rs, uint8_t rw, uint8_t enable,
+	    uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
+	    uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7);
+    
+  void begin(uint8_t cols, uint8_t rows, uint8_t charsize = LCD_5x8DOTS);
+
   void clear();
   void home();
+
   void noDisplay();
   void display();
   void noBlink();
@@ -67,57 +72,43 @@ public:
   void cursor();
   void scrollDisplayLeft();
   void scrollDisplayRight();
-  void printLeft();
-  void printRight();
   void leftToRight();
   void rightToLeft();
-  void shiftIncrement();
-  void shiftDecrement();
-  void noBacklight();
-  void backlight();
   void autoscroll();
   void noAutoscroll();
+  
+  // only if using backpack
+  void setBacklight(uint8_t status); 
+
   void createChar(uint8_t, uint8_t[]);
-  void setCursor(uint8_t, uint8_t);
-  virtual size_t write(uint8_t); //changed to size_t
+  void setCursor(uint8_t, uint8_t); 
+  virtual size_t write(uint8_t);
   void command(uint8_t);
-  void init();
-
-////compatibility API function aliases
-void blink_on();            // alias for blink()
-void blink_off();                 // alias for noBlink()
-void cursor_on();                 // alias for cursor()
-void cursor_off();                // alias for noCursor()
-void setBacklight(uint8_t new_val);       // alias for backlight() and nobacklight()
-void load_custom_character(uint8_t char_num, uint8_t *rows);  // alias for createChar()
-void printstr(const char[]);
-
-////Unsupported API functions (not implemented in this library)
-uint8_t status();
-void setContrast(uint8_t new_val);
-uint8_t keypad();
-void setDelay(int,int);
-void on();
-void off();
-uint8_t init_bargraph(uint8_t graphtype);
-void draw_horizontal_graph(uint8_t row, uint8_t column, uint8_t len,  uint8_t pixel_col_end);
-void draw_vertical_graph(uint8_t row, uint8_t column, uint8_t len,  uint8_t pixel_col_end);
-
-
 private:
-  void init_priv();
   void send(uint8_t, uint8_t);
   void write4bits(uint8_t);
-  void expanderWrite(uint8_t);
-  void pulseEnable(uint8_t);
-  uint8_t _Addr;
+  void write8bits(uint8_t);
+  void pulseEnable();
+  void _digitalWrite(uint8_t, uint8_t);
+  void _pinModeMCP(uint8_t, uint8_t);
+
+  uint8_t _rs_pin; // LOW: command.  HIGH: character.
+  uint8_t _rw_pin; // LOW: write to LCD.  HIGH: read from LCD.
+  uint8_t _enable_pin; // activated by a HIGH pulse.
+  uint8_t _data_pins[8];
+
   uint8_t _displayfunction;
   uint8_t _displaycontrol;
   uint8_t _displaymode;
-  uint8_t _numlines;
-  uint8_t _cols;
-  uint8_t _rows;
-  uint8_t _backlightval;
+
+  uint8_t _initialized;
+
+  uint8_t _numlines,_currline;
+
+  uint8_t _SPIclock, _SPIdata, _SPIlatch;
+  uint8_t _SPIbuff;
+
+  uint8_t _i2cAddr;
+  Adafruit_MCP23008 _i2c;
 };
 
-#endif
