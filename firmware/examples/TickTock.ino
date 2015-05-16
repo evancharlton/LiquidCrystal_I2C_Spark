@@ -1,8 +1,8 @@
 // This #include statement was automatically added by the Particle IDE.
-#include "MCP23008.h"
+#include "LiquidCrystal/MCP23008.h"
 
 // This #include statement was automatically added by the Particle IDE.
-#include "LiquidCrystal.h"
+#include "LiquidCrystal/LiquidCrystal.h"
 
 //-----------------------------------------------//
 // I2C / SPI LCD BACKPACK LIBRARY FOR SPARK CORE //
@@ -55,3 +55,4 @@ void loop() {
   lcd.setBacklight(LOW);
   delay(500);
 }
+
