@@ -1,3 +1,6 @@
+#include "Adafruit_MCP23008.h"
+#include "LiquidCrystal_I2C_Spark.h"
+
 //-----------------------------------------------//
 // I2C / SPI LCD BACKPACK LIBRARY FOR SPARK CORE //
 //===============================================//

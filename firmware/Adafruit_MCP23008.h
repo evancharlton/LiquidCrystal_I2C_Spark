@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 #define _BV(bit) (1 << (bit)) // used in LiquidCrystal.cpp
 
 /*************************************************** 
