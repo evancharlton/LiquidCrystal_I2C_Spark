@@ -1,5 +1,7 @@
 #include "application.h"
 
+#include "MCP23008.h"
+
 #ifndef LIQUIDCRYSTAL_H
 #define LIQUIDCRYSTAL_H
 
