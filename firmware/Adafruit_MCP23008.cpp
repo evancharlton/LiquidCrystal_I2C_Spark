@@ -1,4 +1,6 @@
 
+#include "Adafruit_MCP23008.h"
+
 /*************************************************** 
   This is a library for the MCP23008 i2c port expander
 
