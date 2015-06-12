@@ -2,6 +2,6 @@
   "name": "LCD_I2C",
   "author": "Evan Charlton <evancharlton@gmail.com>",
   "license": "BSD",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "LiquidCrystal_I2C ported to Spark Core, and packaged in a convenient library."
 }
