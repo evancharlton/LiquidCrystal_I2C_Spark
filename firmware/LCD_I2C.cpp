@@ -1,6 +1,6 @@
 
 #include "MCP23008.h"
-#include "LiquidCrystal.h"
+#include "LCD_I2C.h"
 
 // When the display powers up, it is configured as follows:
 //
