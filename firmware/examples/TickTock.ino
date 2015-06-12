@@ -1,4 +1,4 @@
-#include "LiquidCrystal/LiquidCrystal.h"
+#include "LCD_I2C/LCD_I2C.h"
 
 //-----------------------------------------------//
 // I2C / SPI LCD BACKPACK LIBRARY FOR SPARK CORE //

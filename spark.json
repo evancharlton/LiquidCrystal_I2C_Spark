@@ -1,5 +1,5 @@
 {
-  "name": "LiquidCrystal",
+  "name": "LCD_I2C",
   "author": "Evan Charlton <evancharlton@gmail.com>",
   "license": "BSD",
   "version": "1.0.0",
